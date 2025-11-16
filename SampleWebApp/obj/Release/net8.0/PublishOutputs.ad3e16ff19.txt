@@ -1,0 +1,7 @@
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\SampleWebApp.exe
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\appsettings.Development.json
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\appsettings.json
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\SampleWebApp.dll
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\SampleWebApp.deps.json
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\SampleWebApp.runtimeconfig.json
+C:\Users\m.guillaume\Github\Test-CICD\artifacts\SampleWebApp\SampleWebApp.pdb
