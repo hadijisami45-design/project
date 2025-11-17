@@ -35,7 +35,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: SampleWebApp-${{ steps.artifact.outputs.artifact_name }}
+          name: SampleWebApp-publish
           path: ./downloaded-artifact/
 
       - name: Create simulated IIS structure
@@ -62,5 +62,5 @@ jobs:
 
       - name: Display success + rollback info
         run: |
-          echo "🚀 Déploiement réussi en ${{ inputs.environment }} !"
+          echo " Déploiement réussi en ${{ inputs.environment }} !"
           echo "Pour rollback : ./infrastructure/rollback-simulated-iis.ps1 -BackupPath '$env:BACKUP_PATH'"
