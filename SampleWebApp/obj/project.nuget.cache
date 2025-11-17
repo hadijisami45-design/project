@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "y5WbLUbUcP0=",
+  "dgSpecHash": "9rPL2pgVsDl+nQOEGOMYJJbyMgSsj/YviaE7enoB7X1xDBD6aE2deYL0RwNWLG0IEnRCUGlczpZG1aBgIRBaFw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\m.guillaume\\Github\\Test-CICD\\SampleWebApp\\SampleWebApp.csproj",
+  "projectFilePath": "/home/hadiji/exam/Test-CICD/SampleWebApp/SampleWebApp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

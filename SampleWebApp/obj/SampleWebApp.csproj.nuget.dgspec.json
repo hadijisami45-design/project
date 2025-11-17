@@ -1,24 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\m.guillaume\\Github\\Test-CICD\\SampleWebApp\\SampleWebApp.csproj": {}
+    "/home/hadiji/exam/Test-CICD/SampleWebApp/SampleWebApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\m.guillaume\\Github\\Test-CICD\\SampleWebApp\\SampleWebApp.csproj": {
+    "/home/hadiji/exam/Test-CICD/SampleWebApp/SampleWebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\m.guillaume\\Github\\Test-CICD\\SampleWebApp\\SampleWebApp.csproj",
+        "projectUniqueName": "/home/hadiji/exam/Test-CICD/SampleWebApp/SampleWebApp.csproj",
         "projectName": "SampleWebApp",
-        "projectPath": "C:\\Users\\m.guillaume\\Github\\Test-CICD\\SampleWebApp\\SampleWebApp.csproj",
-        "packagesPath": "C:\\Users\\m.guillaume\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\m.guillaume\\Github\\Test-CICD\\SampleWebApp\\obj\\",
+        "projectPath": "/home/hadiji/exam/Test-CICD/SampleWebApp/SampleWebApp.csproj",
+        "packagesPath": "/home/hadiji/.nuget/packages/",
+        "outputPath": "/home/hadiji/exam/Test-CICD/SampleWebApp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\m.guillaume\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/hadiji/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
@@ -29,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -58,7 +56,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.416/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.121/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,0 +1,7 @@
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/SampleWebApp
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/appsettings.Development.json
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/appsettings.json
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/SampleWebApp.dll
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/SampleWebApp.deps.json
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/SampleWebApp.runtimeconfig.json
+/home/hadiji/exam/Test-CICD/artifacts/SampleWebApp/SampleWebApp.pdb
