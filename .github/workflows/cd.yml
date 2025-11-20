@@ -21,7 +21,6 @@ jobs:
 
       - name: Create simulated IIS structure
         run: |
-          mkdir -p _simulated_iis/Sites/SampleWebApp
           mkdir -p _simulated_iis/Backups
 
       - name: Backup current version
