@@ -9,10 +9,6 @@ on:
         default: 'dev'
         type: choice
         options: [dev, prod]
-      version:
-        description: 'Version (commit SHA ou tag) à déployer'
-        required: true
-        default: 'latest'
 
 jobs:
   deploy:
@@ -23,35 +19,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-   ##- name: Determine artifact to download
-        #id: artifact
-        #run: |
-         # if "${{ inputs.version }}" == "latest" ; then
-          #  echo "artifact_name=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          #else
-           # echo "artifact_name=${{ inputs.version }}" >> $GITHUB_OUTPUT
-          #fi 
-
-
-      - name: Lookup artifact from CI workflow
-        id: lookup
-        uses: actions/lookup-artifact@v1
-        with:
-          name: SampleWebApp-publish
-          version: ${{ inputs.version }}
-
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ steps.lookup.outputs.artifact-name }}
-          path: ./downloaded-artifact/
-
       - name: Create simulated IIS structure
         run: |
           mkdir -p _simulated_iis/Sites/SampleWebApp
           mkdir -p _simulated_iis/Backups
 
-      - name: Backup current version (rollback preparation)
+      - name: Backup current version
         run: |
           $date = Get-Date -Format "yyyyMMdd-HHmmss"
           $backupPath = "_simulated_iis/Backups/SampleWebApp-$date-${{ github.sha }}"
@@ -62,13 +35,13 @@ jobs:
 
       - name: Copy environment-specific config
         run: |
-          Copy-Item "environments/appsettings.${{ inputs.environment }}.json" "./downloaded-artifact/appsettings.json" -Force
+          Copy-Item "environments/appsettings.${{ inputs.environment }}.json" "./artifacts/SampleWebApp/appsettings.json" -Force
 
       - name: Deploy to simulated IIS
         run: |
-          ./infrastructure/deploy-to-simulated-iis.ps1 -SourcePath "./downloaded-artifact"
+          Copy-Item "./artifacts/SampleWebApp/*" "_simulated_iis/Sites/SampleWebApp/" -Recurse -Force
 
       - name: Display success + rollback info
         run: |
-          echo " Déploiement réussi en ${{ inputs.environment }} !"
+          echo "Déploiement réussi en ${{ inputs.environment }} !"
           echo "Pour rollback : ./infrastructure/rollback-simulated-iis.ps1 -BackupPath '$env:BACKUP_PATH'"
