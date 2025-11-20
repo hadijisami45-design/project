@@ -23,14 +23,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Determine artifact to download
-        id: artifact
-        run: |
-          if "${{ inputs.version }}" == "latest" ; then
-            echo "artifact_name=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-          else
-            echo "artifact_name=${{ inputs.version }}" >> $GITHUB_OUTPUT
-          fi
+   ##- name: Determine artifact to download
+        #id: artifact
+        #run: |
+         # if "${{ inputs.version }}" == "latest" ; then
+          #  echo "artifact_name=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          #else
+           # echo "artifact_name=${{ inputs.version }}" >> $GITHUB_OUTPUT
+          #fi 
 
       - name: Download artifact
         uses: actions/download-artifact@v4
