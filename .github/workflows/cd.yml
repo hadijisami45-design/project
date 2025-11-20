@@ -32,10 +32,18 @@ jobs:
            # echo "artifact_name=${{ inputs.version }}" >> $GITHUB_OUTPUT
           #fi 
 
+
+      - name: Lookup artifact from CI workflow
+        id: lookup
+        uses: actions/lookup-artifact@v1
+        with:
+          name: SampleWebApp-publish
+          version: ${{ inputs.version }}
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: SampleWebApp-publish
+          name: ${{ steps.lookup.outputs.artifact-name }}
           path: ./downloaded-artifact/
 
       - name: Create simulated IIS structure
