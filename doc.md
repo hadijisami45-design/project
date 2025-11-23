@@ -203,7 +203,7 @@ Choisit le fichier de configuration correspondant à l’environnement (dev ou p
 Description :
 Copie les fichiers publiés dans le dossier IIS simulé.
 
-## Afficher succès et informations rollback
+## Afficher succès 
 **Code :**
 ```yaml
 - name: Display success + rollback info
