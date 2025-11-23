@@ -1,0 +1,20 @@
+name: Rollback - Simulated IIS
+
+on:
+  workflow_dispatch:
+    inputs:
+      backup-path:
+        description: 'Chemin du backup à restaurer'
+        required: true
+        default: ''
+
+jobs:
+  rollback:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run rollback script
+        run: |
+          pwsh ./infrastructure/rollback-simulated-iis.ps1 -BackupPath "${{ github.event.inputs.backup-path }}"
