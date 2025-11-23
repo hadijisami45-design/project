@@ -26,20 +26,21 @@ Le pipeline CI démarre automatiquement dans les cas suivants :
 ```
 Le pipeline CI démarre automatiquement dans les cas suivants :
     
-    •push sur la branche main
+•push sur la branche main
 
-    •pull_request vers la branche main (pour chaque intégration d'une nouvelle branche)
+•pull_request vers la branche main (pour chaque intégration d'une nouvelle branche)
 
 
 ### Jobs principal Build
 
 
-• Runner utilisé : runs-on: windows-latest
+• Runner utilisé : runs-on: windows-latest Le job s'exécute sur une machine virtuelle Windows.
 
-• Le job s'exécute sur une machine virtuelle Windows.
+
 
 
 ## Étapes du job build
+
 
 
 
@@ -48,7 +49,6 @@ Le pipeline CI démarre automatiquement dans les cas suivants :
 - name: Checkout code
   uses: actions/checkout@v4
 ```
-Description :
 
 Récupère le code du dépôt dans l’espace de travail du runner pour accéder au code source.
 
@@ -60,7 +60,7 @@ Récupère le code du dépôt dans l’espace de travail du runner pour accéder
   with:
     dotnet-version: '8.0.x'
 ```
-Description :
+
 Installe le SDK .NET et configure dotnet dans le PATH.
 
 
@@ -70,7 +70,6 @@ Installe le SDK .NET et configure dotnet dans le PATH.
 - name: Restore dependencies
   run: dotnet restore ./SampleWebApp/SampleWebApp.csproj
 ```
-Description :
 
 Télécharge et installe tous les packages NuGet nécessaires au projet et prépare les dépendances pour la compilation.
 
@@ -80,9 +79,9 @@ Télécharge et installe tous les packages NuGet nécessaires au projet et prép
 - name: Build Release
   run: dotnet build ./SampleWebApp/SampleWebApp.csproj -c Release --no-restore
 ```
-Description :
 
 Compile le code source en assemblies (.dll) et génère les dossiers bin/Release et bin/Debug.
+
 L’option --no-restore évite de restaurer à nouveau les packages déjà installés.
 
 ## Test
@@ -91,13 +90,12 @@ L’option --no-restore évite de restaurer à nouveau les packages déjà insta
 - name: Test
   run: dotnet test --no-build --verbosity normal
 ```
-Description :
 
 Exécute les tests du projet.
     
-    •--no-build évite la recompilation déjà faite par dotnet build
+•--no-build évite la recompilation déjà faite par dotnet build
     
-    •--verbosity normal augmente la verbosité pour faciliter le debug en CI
+•--verbosity normal augmente la verbosité pour faciliter le debug en CI
 
 
 ## Publish
@@ -107,7 +105,6 @@ Exécute les tests du projet.
   run: dotnet publish ./SampleWebApp/SampleWebApp.csproj -c Release -o ./artifacts/SampleWebApp --no-build
 ```
 
-Description :
 
 Génère une sortie prête à être déployée dans le dossier ./artifacts/SampleWebApp.
 
@@ -121,8 +118,6 @@ Génère une sortie prête à être déployée dans le dossier ./artifacts/Sampl
     path: ./artifacts/SampleWebApp/**
     retention-days: 7
 ```
-
-Description :
 
 Stocke la sortie publish comme artefact joignable depuis l’interface GitHub Actions pendant 7 jours.
 
@@ -143,7 +138,7 @@ on:
         type: choice
         options: [dev, prod]
 ```
-Description :
+
 
 L’utilisateur choisit l’environnement (dev ou prod).
 La valeur choisie est accessible via ${{ inputs.environment }}.
@@ -157,7 +152,6 @@ La valeur choisie est accessible via ${{ inputs.environment }}.
   run: mkdir -p _simulated_iis/Backups
 ```
 
-Description :
 Crée un dossier Backups pour stocker les sauvegardes avant déploiement.
 
 
@@ -174,8 +168,6 @@ Crée un dossier Backups pour stocker les sauvegardes avant déploiement.
     }
 ```
 
-Description :
-
 Vérifie si une version précédente existe et crée un backup avant le déploiement.
 Expose la variable BACKUP_PATH pour les étapes suivantes.
 
@@ -188,7 +180,7 @@ Expose la variable BACKUP_PATH pour les étapes suivantes.
     Copy-Item "environments/appsettings.${{ inputs.environment }}.json" "./artifacts/SampleWebApp/appsettings.json" -Force
 ```
 
-Description :
+
 
 Choisit le fichier de configuration correspondant à l’environnement (dev ou prod) et le copie dans les artefacts.
 
@@ -200,7 +192,7 @@ Choisit le fichier de configuration correspondant à l’environnement (dev ou p
     Copy-Item "./artifacts/SampleWebApp/*" "_simulated_iis/Sites/SampleWebApp/" -Recurse -Force
 ```
 
-Description :
+
 Copie les fichiers publiés dans le dossier IIS simulé.
 
 ## Afficher succès 
@@ -210,7 +202,7 @@ Copie les fichiers publiés dans le dossier IIS simulé.
   run: |
     echo "Déploiement réussi en ${{ inputs.environment }} !"
 ```
-Description :
+
 Affiche un message de succès 
 
 # Comment declecher un déploiement ?
