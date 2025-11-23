@@ -1,6 +1,6 @@
 # Pipeline CI/CD - Explication
 
-## CI (Continuous Integration) : Build & Publish
+# CI (Continuous Integration) : Build & Publish
 
 **Nom du workflow :** `CI – Build & Publish`
 
@@ -19,86 +19,120 @@ Le pipeline CI démarre automatiquement dans les cas suivants :
 
 #### Étapes (`steps`) du job build
 
-1. **Checkout code**
+**Checkout code**
 ```yaml
 - name: Checkout code
   uses: actions/checkout@v4
+```
+Le pipeline CI démarre automatiquement dans les cas suivants :
+    
+    •push sur la branche main
+
+    •pull_request vers la branche main (pour chaque intégration d'une nouvelle branche)
+
+
+### Jobs principal Build
+
+
+• Runner utilisé : runs-on: windows-latest
+
+• Le job s'exécute sur une machine virtuelle Windows.
+
+
+## Étapes du job build
+
+
+
+**Checkout code**
+```yaml
+- name: Checkout code
+  uses: actions/checkout@v4
+```
+Description :
+
 Récupère le code du dépôt dans l’espace de travail du runner pour accéder au code source.
 
-Setup .NET
-
-yaml
-Copier le code
+## Setup .NET
+**code :**
+```yaml
 - name: Setup .NET
   uses: actions/setup-dotnet@v4
   with:
     dotnet-version: '8.0.x'
-Installe le SDK .NET.
+```
+Description :
+Installe le SDK .NET et configure dotnet dans le PATH.
 
-actions/setup-dotnet télécharge et configure la version demandée dans le PATH pour que dotnet soit disponible.
 
-Restore dependencies
-
-yaml
-Copier le code
+## Restore dependencies
+**Code :**
+```yaml
 - name: Restore dependencies
   run: dotnet restore ./SampleWebApp/SampleWebApp.csproj
-Télécharge et installe tous les packages et dépendances nécessaires au projet (NuGet).
+```
+Description :
 
-Prépare les dépendances pour la compilation.
+Télécharge et installe tous les packages NuGet nécessaires au projet et prépare les dépendances pour la compilation.
 
-Build Release
-
-yaml
-Copier le code
+## . Build Release
+**Code :**
+```yaml
 - name: Build Release
   run: dotnet build ./SampleWebApp/SampleWebApp.csproj -c Release --no-restore
+```
+Description :
+
 Compile le code source en assemblies (.dll) et génère les dossiers bin/Release et bin/Debug.
+L’option --no-restore évite de restaurer à nouveau les packages déjà installés.
 
-L’option --no-restore indique de ne pas restaurer les packages déjà installés.
-
-Test
-
-yaml
-Copier le code
+## Test
+**Code :**
+```yaml
 - name: Test
   run: dotnet test --no-build --verbosity normal
+```
+Description :
+
 Exécute les tests du projet.
+    
+    •--no-build évite la recompilation déjà faite par dotnet build
+    
+    •--verbosity normal augmente la verbosité pour faciliter le debug en CI
 
---no-build évite la recompilation déjà faite par dotnet build.
 
---verbosity normal augmente la verbosité pour faciliter le debug en CI.
-
-Publish
-
-yaml
-Copier le code
+## Publish
+**Code :**
+```yaml
 - name: Publish
   run: dotnet publish ./SampleWebApp/SampleWebApp.csproj -c Release -o ./artifacts/SampleWebApp --no-build
-Génère une sortie prête à être déployée.
+```
 
-L’option -o ./artifacts/SampleWebApp place la sortie dans le dossier ./artifacts/SampleWebApp.
+Description :
 
-Upload artifact
+Génère une sortie prête à être déployée dans le dossier ./artifacts/SampleWebApp.
 
-yaml
-Copier le code
+# Upload artifact
+**Code :**
+```yaml
 - name: Upload artifact
   uses: actions/upload-artifact@v4
   with:
     name: SampleWebApp-publish
     path: ./artifacts/SampleWebApp/**
     retention-days: 7
-Stocke la sortie publish comme artefact joignable depuis l’interface GitHub Actions.
+```
 
-Les artefacts sont conservés pendant 7 jours.
+Description :
 
-CD (Continuous Deployment)
-Déclencheur
-Le déploiement est déclenché manuellement via workflow_dispatch :
+Stocke la sortie publish comme artefact joignable depuis l’interface GitHub Actions pendant 7 jours.
 
-yaml
-Copier le code
+
+
+# CD (Continuous Deployment)
+
+# Déclencheur manuel
+**Code :**
+```yaml
 on:
   workflow_dispatch:
     inputs:
@@ -108,23 +142,28 @@ on:
         default: 'dev'
         type: choice
         options: [dev, prod]
-L’utilisateur doit choisir l’environnement : dev ou prod.
+```
+Description :
 
+L’utilisateur choisit l’environnement (dev ou prod).
 La valeur choisie est accessible via ${{ inputs.environment }}.
 
-Étapes du workflow CD
-Créer la structure IIS simulée
 
-yaml
-Copier le code
+## Étapes du workflow CD
+1. Créer la structure IIS simulée
+**Code :**
+```yaml
 - name: Create simulated IIS structure
   run: mkdir -p _simulated_iis/Backups
+```
+
+Description :
 Crée un dossier Backups pour stocker les sauvegardes avant déploiement.
 
-Backup de la version actuelle
 
-yaml
-Copier le code
+## Backup de la version actuelle
+**Code :**
+```yaml
 - name: Backup current version
   run: |
     $date = Get-Date -Format "yyyyMMdd-HHmmss"
@@ -133,51 +172,86 @@ Copier le code
       Copy-Item "_simulated_iis/Sites/SampleWebApp" $backupPath -Recurse -Force
       echo "BACKUP_PATH=$backupPath" >> $env:GITHUB_ENV
     }
-Vérifie si une version précédente existe et crée un backup avant le déploiement.
+```
 
+Description :
+
+Vérifie si une version précédente existe et crée un backup avant le déploiement.
 Expose la variable BACKUP_PATH pour les étapes suivantes.
 
-Copier la configuration selon l’environnement
 
-yaml
-Copier le code
+## Copier la configuration selon l’environnement
+**Code :**
+```yaml
 - name: Copy environment-specific config
   run: |
     Copy-Item "environments/appsettings.${{ inputs.environment }}.json" "./artifacts/SampleWebApp/appsettings.json" -Force
+```
+
+Description :
+
 Choisit le fichier de configuration correspondant à l’environnement (dev ou prod) et le copie dans les artefacts.
 
-Déployer vers IIS simulé
-
-yaml
-Copier le code
+## Déployer vers IIS simulé
+**Code :**
+```yaml
 - name: Deploy to simulated IIS
   run: |
     Copy-Item "./artifacts/SampleWebApp/*" "_simulated_iis/Sites/SampleWebApp/" -Recurse -Force
+```
+
+Description :
 Copie les fichiers publiés dans le dossier IIS simulé.
 
-Afficher succès et informations rollback
-
-yaml
-Copier le code
+## Afficher succès et informations rollback
+**Code :**
+```yaml
 - name: Display success + rollback info
   run: |
     echo "Déploiement réussi en ${{ inputs.environment }} !"
-    echo "Pour rollback : ./infrastructure/rollback-simulated-iis.ps1 -BackupPath '$env:BACKUP_PATH'"
-Affiche un message de succès.
+```
+Description :
+Affiche un message de succès 
 
-Fournit la commande PowerShell pour effectuer un rollback si nécessaire.
+# Comment declecher un déploiement ?
 
-Gestion des environnements dev et prod
-Les environnements sont sélectionnés manuellement dans le workflow GitHub Actions.
+**Code :**
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environnement de déploiement'
+        required: true
+        default: 'dev'
+        type: choice
+        options: [dev, prod]
+```
 
-Le déploiement reste identique, mais le fichier de configuration choisi (appsettings.dev.json ou appsettings.prod.json) adapte le comportement de l’application à l’environnement.
+--> Ce workflow permet de lancer le déploiement manuellement en cliquant sur “Run workflow” dans l’interface GitHub Actions, en choisissant l’environnement dev ou prod.
 
-Rollback
-Le rollback permet de revenir à la version précédente en cas de problème avec la nouvelle version.
 
-Il s’effectue via un fichier PowerShell exécuté manuellement dans GitHub Actions :
+# comment sont gérés les environnements dev et prod ?
 
-powershell
-Copier le code
+les environnements dev et prod sont gérés via une sélection manuelle dans le workflow GitHub 
+Actions. Le déploiement lui-même reste identique dans sa structure. Le fichier créer 
+(appsettings.dev.json ou appsettings.prod.json) est ensuite copié dans le dossier des artefacts 
+de l’application, mais la configuration spécifique garantit que le comportement de l’application 
+est adapté à l’environnement. garantissant un déploiement sûr et adapté à chaque contexte 
+
+# comment effectuer un rollback ?
+
+Le rollback sert à revenir à l’ancienne version qui fonctionnait si la nouvelle ne fonctionne pas.
+
+On crée un fichier rollback qui sera exécuté manuellement depuis l’interface GitHub Actions, dans Rollback - Simulated IIS, où l’on indiquera le chemin du backup créé lors de l’étape Backup current version.
+
+Commande pour effectuer le rollback :
+```powershell
 pwsh ./infrastructure/rollback-simulated-iis.ps1 -BackupPath "${{ github.event.inputs.backup-path }}"
-Le chemin de backup utilisé est celui créé lors de l’étape Backup current version
+```
+
+→ Cette commande permet de restaurer l’ancienne version qui fonctionnait correctement
+
+
+
+Sami hadiji
