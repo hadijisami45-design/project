@@ -93,9 +93,9 @@ L’option --no-restore évite de restaurer à nouveau les packages déjà insta
 
 Exécute les tests du projet.
     
-•--no-build évite la recompilation déjà faite par dotnet build
+•--no-build: évite la recompilation déjà faite par dotnet build
     
-•--verbosity normal augmente la verbosité pour faciliter le debug en CI
+•--verbosity: normal augmente la verbosité pour faciliter le debug en CI
 
 
 ## Publish
@@ -125,7 +125,7 @@ Stocke la sortie publish comme artefact joignable depuis l’interface GitHub Ac
 
 # CD (Continuous Deployment)
 
-# Déclencheur manuel
+## Déclencheur manuel
 **Code :**
 ```yaml
 on:
@@ -144,8 +144,7 @@ L’utilisateur choisit l’environnement (dev ou prod).
 La valeur choisie est accessible via ${{ inputs.environment }}.
 
 
-## Étapes du workflow CD
-1. Créer la structure IIS simulée
+## Créer la structure IIS simulée
 **Code :**
 ```yaml
 - name: Create simulated IIS structure
@@ -168,8 +167,7 @@ Crée un dossier Backups pour stocker les sauvegardes avant déploiement.
     }
 ```
 
-Vérifie si une version précédente existe et crée un backup avant le déploiement.
-Expose la variable BACKUP_PATH pour les étapes suivantes.
+Vérifie si une version précédente existe et crée un backup avant le déploiement ensuite il expose la variable BACKUP_PATH pour les étapes suivantes.
 
 
 ## Copier la configuration selon l’environnement
