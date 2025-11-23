@@ -44,3 +44,7 @@ jobs:
         run: |
           echo "Déploiement réussi en ${{ inputs.environment }} !"
           echo "Pour rollback : ./infrastructure/rollback-simulated-iis.ps1 -BackupPath '$env:BACKUP_PATH'"
+      
+      - name: Run rollback script (demo)
+        run: |
+          pwsh ./infrastructure/rollback-simulated-iis.ps1 -BackupPath "$env:BACKUP_PATH"
