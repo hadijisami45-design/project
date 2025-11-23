@@ -40,7 +40,6 @@ jobs:
         run: |
           Copy-Item "./artifacts/SampleWebApp/*" "_simulated_iis/Sites/SampleWebApp/" -Recurse -Force
 
-      - name: Display success + rollback info
+      - name: Display success
         run: |
           echo "Déploiement réussi en ${{ inputs.environment }} !"
-          echo "Pour rollback : ./infrastructure/rollback-simulated-iis.ps1 -BackupPath '$env:BACKUP_PATH'"
