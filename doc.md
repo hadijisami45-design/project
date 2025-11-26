@@ -21,8 +21,11 @@ Le pipeline CI démarre automatiquement dans les cas suivants :
 
 **Checkout code**
 ```yaml
-- name: Checkout code
-  uses: actions/checkout@v4
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 ```
 Le pipeline CI démarre automatiquement dans les cas suivants :
     
@@ -39,7 +42,7 @@ Le pipeline CI démarre automatiquement dans les cas suivants :
 
 
 
-## Étapes du job build
+### Étapes du job build
 
 
 
@@ -234,14 +237,6 @@ est adapté à l’environnement. garantissant un déploiement sûr et adapté �
 Le rollback sert à revenir à l’ancienne version qui fonctionnait si la nouvelle ne fonctionne pas.
 
 On crée un fichier rollback qui sera exécuté manuellement depuis l’interface GitHub Actions, dans Rollback - Simulated IIS, où l’on indiquera le chemin du backup créé lors de l’étape Backup current version.
-
-Commande pour effectuer le rollback :
-```powershell
-pwsh ./infrastructure/rollback-simulated-iis.ps1 -BackupPath "${{ github.event.inputs.backup-path }}"
-```
-
-→ Cette commande permet de restaurer l’ancienne version qui fonctionnait correctement
-
 
 
 Sami hadiji
